@@ -8,25 +8,27 @@ const Register = (props) => { //Define props as a parameter
         name: "",
         email: "",
         password: "",
-    })
+        error: null
+    });
 
-    const { name, email, password } = data
+    const { name, email, password, error } = data;
 
-    const handleChange = e =>
-        setData({ ...data, [e.target.name]: e.target.value })
+    const handleChange = (e) => {
+        setData({ ...data, [e.target.name]: e.target.value });
+    };
 
-    const handleSubmit = async e => {
-        e.preventDefault()
-
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
+            setData({ ...data, error: null });
             await axios.post(
-                "api/auth/register",
+                "/auth/register",
                 { name, email, password },
                 { headers: { "Content-Type": "application/json" } }
-            )
+            );
             props.history.push("/login")
         } catch (err) {
-            console.log(err)
+            setData({ ...data, error: error.response.data.error });
         }
     }
 
@@ -43,11 +45,9 @@ const Register = (props) => { //Define props as a parameter
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className="form-group"> 
                     <label htmlFor="email">Email</label>
-                    <input
-                        type="email"
-                        name="email"
+                    <input className="form-control" type="email" name="email"
                         value={email}
                         onChange={handleChange}
                     />
@@ -61,8 +61,9 @@ const Register = (props) => { //Define props as a parameter
                         onChange={handleChange}
                     />
                 </div>
-                <div>
-                    <button>Register</button>
+                {error ? <p className="text-danger">{error}</p>: null }
+                <div className="text-centre"> 
+                    <button className="btn btn-primary" onClick={handleSubmit}>Register</button>
                 </div>
                 <p>
                     Already a user? <Link to="/login">Login</Link>

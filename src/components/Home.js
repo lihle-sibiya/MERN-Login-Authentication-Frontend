@@ -2,30 +2,30 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const Home = props => {
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(null);
 
     const getUser = async () => {
-        const res = await axios.get("api/auth", {
+        const res = await axios.get("/auth", {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-        })
-        setUser(res.data)
-    }
+        });
+        setUser(res.data);
+    };
 
     // we are calling the getUser function
     useEffect(() => {
-        getUser()
-    }, [])
+        getUser();
+    }, []);
 
     const logout = () => {
-        localStorage.removeItem("token")
-        props.history.push("/login")
-    }
+        localStorage.removeItem("token");
+        props.history.push("/login");
+    };
 
     //User can go visit Home page with a token, else login page
     if (!localStorage.getItem("token")) {
-        props.history.push("/login")
+        props.history.push("/login");
     }
 
     return (

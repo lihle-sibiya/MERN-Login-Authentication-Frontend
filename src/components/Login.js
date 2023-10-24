@@ -8,24 +8,27 @@ const Login = props => {
         password: "",
     })
 
-    const { email, password } = data
+    const { email, password } = data;
 
-    const handleChange = e =>
-        setData({ ...data, [e.target.name]: e.target.value })
+    const handleChange = (e) =>
+        setData({ ...data, [e.target.name]: e.target.value });
 
-    const handleSubmit = async e => {
-        e.preventDefault()
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setData({ ...data, error: null });
 
         try {
             const res = await axios.post(
-                "api/auth/login",
+                "/auth/login",
                 { email, password },
-                { headers: { "Content-Type": "application/json" } }
-            )
+                { headers: { "Content-Type": "application/json", }, }
+            );
             localStorage.setItem("token", res.data.token)
             props.history.push("/")
         } catch (err) {
-            console.log(err)
+            console.log(err){
+                setData({ ...data, error: error.response.data.error });
+            }
         }
     }
 
@@ -51,8 +54,9 @@ const Login = props => {
                         onChange={handleChange}
                     />
                 </div>
+                {error ? <p className="text-danger">{error}</p>: null }
                 <div>
-                    <button>Login</button>
+                    <button className="btn btn-primary" onClick={handleSubmit}>Login</button>
                 </div>
                 <p>
                     Not a user? <Link to="/register">Register</Link>
