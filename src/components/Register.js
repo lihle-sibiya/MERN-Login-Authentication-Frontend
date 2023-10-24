@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 
-const Register = () => {
+const Register = (props) => { //Define props as a parameter
     const [data, setData] = useState({
         name: "",
         email: "",
@@ -20,7 +20,7 @@ const Register = () => {
 
         try {
             await axios.post(
-                "/auth/register",
+                "api/auth/register",
                 { name, email, password },
                 { headers: { "Content-Type": "application/json" } }
             )

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Login = props => {
     const [data, setData] = useState({
@@ -17,7 +18,7 @@ const Login = props => {
 
         try {
             const res = await axios.post(
-                "/auth/login",
+                "api/auth/login",
                 { email, password },
                 { headers: { "Content-Type": "application/json" } }
             )
@@ -27,7 +28,7 @@ const Login = props => {
             console.log(err)
         }
     }
-    
+
     return (
         <div>
             <h4>Log into your account</h4>
