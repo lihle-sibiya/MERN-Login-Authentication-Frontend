@@ -20,7 +20,7 @@ const Register = (props) => {
     try {
       setData({ ...data, error: null });
       await axios.post(
-        "http://localhost:5000//api/auth/register",
+        "https://jwtlogin-gla0.onrender.com/api/auth/register",
         { name, email, password },
         {
           headers: {
